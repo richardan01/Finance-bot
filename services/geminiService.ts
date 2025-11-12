@@ -1,10 +1,10 @@
 import { GoogleGenAI, Type, GenerateContentResponse, Content } from "@google/genai";
 import { Part, ChartData } from '../types';
 
-const API_KEY = process.env.API_KEY;
+const API_KEY = process.env.GEMINI_API_KEY;
 
 if (!API_KEY) {
-  throw new Error("API_KEY environment variable not set");
+  throw new Error("GEMINI_API_KEY environment variable not set. Please check your .env file.");
 }
 
 const ai = new GoogleGenAI({ apiKey: API_KEY });

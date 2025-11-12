@@ -7,6 +7,7 @@ FinBot is an advanced AI-powered chatbot designed specifically for payment and f
 ## Key Features
 
 -   **Conversational Queries**: Ask questions about your financial data in plain English. No need for complex query languages or spreadsheet formulas.
+-   **Multi-Provider Ready**: Easily configure the bot to use different AI providers. The project is set up to support Google Gemini, OpenAI, or Anthropic Claude. (Note: Current implementation supports Gemini out-of-the-box).
 -   **Automated Report Access**: FinBot acts as if it has real-time access to your team's daily, weekly, and monthly reports from connected data sources like Google Drive.
 -   **File Upload & Analysis**: Upload your own financial documents (`PDF`, `DOCX`, `XLSX`, `CSV`) to have them instantly analyzed and included in the conversation.
 -   **Interactive Visualizations**: Generate dynamic bar charts, line graphs, and pie charts by simply asking. The chart appears in a dedicated side panel, keeping it visible alongside the conversation.
@@ -23,21 +24,39 @@ This project is designed to run in a modern web environment where dependencies a
 ### Prerequisites
 
 -   A modern web browser (e.g., Chrome, Firefox, Safari).
--   Access to the Google Gemini API.
+-   An API key from your chosen AI provider (Google Gemini, OpenAI, or Anthropic).
 
 ### Configuration
 
-The application requires a Google Gemini API key to function. This key must be available in the execution environment as an environment variable named `API_KEY`.
+The application requires an API key to function. Configuration is managed through an environment file.
 
-The application is built to automatically use this variable. **Do not** hardcode your API key in the source code.
+1.  **Create an Environment File**: In the root of the project, create a new file named `.env`. You can do this by copying the example file:
+    ```bash
+    cp .env.example .env
+    ```
+
+2.  **Edit the `.env` File**: Open the `.env` file and configure the variables:
+    -   `AI_PROVIDER`: Set this to the AI provider you want to use. The default and currently implemented provider is `gemini`.
+    -   **API Keys**: Add your API key for the provider you selected. You only need to fill in the key for your chosen `AI_PROVIDER`.
+
+    Your `.env` file should look something like this:
+    ```env
+    # Select your AI provider. Currently, only 'gemini' is supported in the code.
+    AI_PROVIDER=gemini
+
+    # Add your API keys below. Only the key for the selected provider is required.
+    GEMINI_API_KEY="YOUR_GEMINI_API_KEY_HERE"
+    OPENAI_API_KEY="" # Leave blank if not using
+    ANTHROPIC_API_KEY="" # Leave blank if not using
+    ```
+**Note**: The application code has been pre-configured to work with Gemini. To use OpenAI or Claude, you would need to implement the corresponding service logic in the `services/` directory.
 
 ### Installation
 
-No traditional installation steps like `npm install` are needed if you are running this in a supported online development environment that respects the `importmap` in `index.html`.
+No traditional installation steps like `npm install` are needed if you are running this in a supported online development environment that respects the `importmap` in `index.html` and can inject environment variables from a `.env` file.
 
-1.  Ensure all the project files are in the same directory structure.
-2.  Make sure your `API_KEY` environment variable is correctly set up in your hosting or development environment.
-3.  Serve the `index.html` file through a web server.
+1.  Create and configure your `.env` file as described above.
+2.  Serve the `index.html` file through a web server.
 
 If you wish to run this project in a standard local development setup, you will need to:
 1.  Set up a React project using a build tool like [Vite](https://vitejs.dev/) or [Create React App](https://create-react-app.dev/).
@@ -45,9 +64,8 @@ If you wish to run this project in a standard local development setup, you will 
     ```bash
     npm install react react-dom @google/genai lucide-react recharts
     ```
-3.  Set up environment variable handling (e.g., using a `.env` file with `VITE_API_KEY`).
-4.  Adjust the code to import the API key from `import.meta.env.VITE_API_KEY` instead of `process.env.API_KEY`.
-
+3.  Ensure your build tool is configured to use your `.env` file (e.g., Vite does this automatically).
+4.  If using Vite, adjust the code in `services/geminiService.ts` to import the API key from `import.meta.env.VITE_GEMINI_API_KEY` instead of `process.env.GEMINI_API_KEY`.
 
 ## Technology Stack
 
@@ -59,7 +77,7 @@ If you wish to run this project in a standard local development setup, you will 
 
 ## How It Works
 
-FinBot leverages the power of the Google Gemini API with a detailed system instruction that primes the AI to act as a financial analyst.
+FinBot leverages the power of a large language model with a detailed system instruction that primes the AI to act as a financial analyst.
 
 1.  **User Input**: The user sends a prompt, which can be a text question or a file upload.
 2.  **API Communication**: The request is sent to the `geminiService`, which constructs a request to the Gemini API, including the prompt, conversation history, and any file data.
