@@ -16,6 +16,39 @@ FinBot is an advanced AI-powered chatbot designed specifically for payment and f
     2.  **Main Chat**: The central hub for interacting with the AI.
     3.  **Visualization Panel**: A dedicated space for viewing and analyzing charts without losing your conversational context.
 
+## Getting Started
+
+This project is designed to run in a modern web environment where dependencies are managed via import maps and environment variables are pre-configured.
+
+### Prerequisites
+
+-   A modern web browser (e.g., Chrome, Firefox, Safari).
+-   Access to the Google Gemini API.
+
+### Configuration
+
+The application requires a Google Gemini API key to function. This key must be available in the execution environment as an environment variable named `API_KEY`.
+
+The application is built to automatically use this variable. **Do not** hardcode your API key in the source code.
+
+### Installation
+
+No traditional installation steps like `npm install` are needed if you are running this in a supported online development environment that respects the `importmap` in `index.html`.
+
+1.  Ensure all the project files are in the same directory structure.
+2.  Make sure your `API_KEY` environment variable is correctly set up in your hosting or development environment.
+3.  Serve the `index.html` file through a web server.
+
+If you wish to run this project in a standard local development setup, you will need to:
+1.  Set up a React project using a build tool like [Vite](https://vitejs.dev/) or [Create React App](https://create-react-app.dev/).
+2.  Install the required dependencies manually:
+    ```bash
+    npm install react react-dom @google/genai lucide-react recharts
+    ```
+3.  Set up environment variable handling (e.g., using a `.env` file with `VITE_API_KEY`).
+4.  Adjust the code to import the API key from `import.meta.env.VITE_API_KEY` instead of `process.env.API_KEY`.
+
+
 ## Technology Stack
 
 -   **Frontend**: React with TypeScript
