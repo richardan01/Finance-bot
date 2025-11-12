@@ -1,0 +1,5 @@
+{
+  "name": "FinBot - AI Financial Analyst",
+  "description": "An AI financial analyst for payment teams. Ask questions about automated daily, weekly, and monthly reports from connected sources like Google Drive, or upload your own files (PDF, DOCX, XLSX, CSV) for instant analysis and visualization.",
+  "requestFramePermissions": []
+}
