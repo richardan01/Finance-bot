@@ -1,6 +1,7 @@
 # Finance Bot 💰 (FinBot)
 
 ![Status](https://img.shields.io/badge/status-prototype-blue)
+![CI](https://github.com/richardan01/Finance-bot/actions/workflows/ci.yml/badge.svg)
 ![Focus](https://img.shields.io/badge/focus-AI%20product%20management-purple)
 ![Human Review](https://img.shields.io/badge/human--in--the--loop-required-orange)
 ![Data](https://img.shields.io/badge/data-simulated-lightgrey)
@@ -18,6 +19,15 @@ FinBot is a single-page React app that calls Google's Gemini model to answer fin
 ## Why it exists
 
 Most AI tools applied to finance optimise for sounding helpful. The real problem is **reviewability** — a finance answer is only useful if someone can check the assumptions, follow the math, and decide whether to trust it *before* it drives a decision. FinBot prototypes a different pattern: structured, inspectable answers with a human between the output and any decision. See [docs/product-brief.md](docs/product-brief.md) for the full problem framing and differentiation from generic LLM chat.
+
+## Demo
+
+> Demo GIF / screenshots not yet added — the app runs locally with a Gemini API key (`npm run dev`). Recording a walkthrough is on the roadmap.
+
+Suggested prompts to try once running:
+- *"Revenue was $80k Jan, $95k Feb, $88k Mar. Summarise the trend and flag any concern."*
+- *"Show a bar chart of those three months."*
+- *"Should I cut the marketing budget?" (deliberately under-specified — watch the caveat behaviour)*
 
 ## How it works (real flow)
 
