@@ -1,110 +1,109 @@
-# Finance Bot 💰
+# Finance Bot 💰 (FinBot)
 
 ![Status](https://img.shields.io/badge/status-prototype-blue)
-![Product](https://img.shields.io/badge/focus-AI%20product%20management-purple)
+![Focus](https://img.shields.io/badge/focus-AI%20product%20management-purple)
 ![Human Review](https://img.shields.io/badge/human--in--the--loop-required-orange)
+![Data](https://img.shields.io/badge/data-simulated-lightgrey)
 
-AI finance assistant prototype for structured analysis, reasoning, charting, and human review.
+An AI finance-analyst **prototype** that turns finance questions into structured, reviewable answers — with charts when they help and a human in the loop before anything informs a decision.
+
+> **Honest framing:** This is a learning / portfolio project, not a deployed product. The current build **simulates** access to finance reports (the model is prompted to *act as if* it can read Google Drive files). There is no real data connection yet. Treat all output as illustrative.
+
+---
 
 ## What this is
 
-Finance Bot is a learning project that explores how an AI assistant could help finance and operations users turn messy business questions into structured, reviewable analysis. It is framed as a product prototype, not a production financial advisor.
+FinBot is a single-page React app that calls Google's Gemini model to answer finance and operations questions, optionally analyze uploaded files (PDF/DOCX/XLSX/CSV), and render simple charts (bar/line/pie). It exists to demonstrate **AI product thinking** — problem framing, assistant design, evaluation, failure-mode analysis, and launch readiness — not to give financial advice.
 
 ## Who it is for
 
-- Finance and business operations teams exploring AI-assisted analysis
-- Product managers evaluating AI workflow design and launch readiness
-- Analysts who need clearer answer structure, charts, and review checkpoints
-- Portfolio reviewers looking for practical AI product thinking
+- Finance / ops users who want a faster first-pass analysis they can inspect
+- Product managers evaluating AI workflow and guardrail design
+- Portfolio reviewers looking for practical, honest AI PM work
 
 ## Problem
 
-Finance questions often mix incomplete context, unclear assumptions, calculations, and decision pressure. A basic chatbot response can sound confident while hiding gaps, unsupported numbers, or reasoning errors.
+Finance questions mix incomplete context, hidden assumptions, calculations, and decision pressure. A generic chatbot can sound confident while hiding gaps, unsupported numbers, or arithmetic errors — which is exactly where finance teams get hurt.
 
 ## Solution
 
-Finance Bot demonstrates a safer assistant pattern: collect context, reason through the request, produce a structured answer, show charts when useful, and keep a human reviewer in the loop before decisions are made.
+A safer assistant pattern: gather context, reason explicitly, return a **structured** answer that separates facts / assumptions / analysis / caveats, offer a chart when it clarifies, and keep a human reviewer between the answer and any decision.
 
-## How it works
+## How it works (real flow)
 
-1. User asks a finance or business analysis question.
-2. Assistant identifies the relevant context, assumptions, and analysis path.
-3. Data or user-provided context is used to shape a structured response.
-4. The output highlights reasoning, caveats, and next steps.
-5. Charts or visualizations are generated when they make the answer clearer.
-6. A human reviews the answer before it supports a decision.
+1. User asks a question and/or uploads a file in the chat UI (`components/ChatInterface.tsx`).
+2. The request + conversation history is sent to **Gemini 2.5 Flash** with a finance-analyst system prompt (`services/geminiService.ts`).
+3. If the prompt looks like a chart request, the model is asked to return **structured JSON** matching a chart schema; otherwise it returns Markdown text.
+4. Text responses may include a `CHART_SUGGESTION:` line, which the client parses into a one-click "visualize" action.
+5. Valid chart JSON is rendered with `recharts` in the visualization panel.
+6. A human reviews the output before it supports any decision.
 
-## Demo
+See [docs/architecture.md](docs/architecture.md) for the full diagram and trust boundaries.
 
-Demo assets are not included yet. Planned additions:
+## Tech stack
 
-- Short walkthrough video or GIF
-- Example prompt set
-- Before / after comparison of unstructured vs. structured analysis
-- Screenshot of chart-supported output
+React 19 · TypeScript · Vite · `@google/genai` (Gemini 2.5 Flash) · recharts · lucide-react.
 
 ## Product thinking
 
-This project emphasizes product decisions, not just implementation:
-
-- Make uncertainty visible instead of hiding it
-- Separate analysis support from final financial recommendations
-- Design for reviewability, traceability, and user trust
-- Define launch gates before expanding usage
-- Treat evaluation and failure modes as core product requirements
+- Make uncertainty and assumptions **visible** instead of hiding them.
+- Separate analysis support from final financial recommendations.
+- Design for reviewability and traceability, not autonomy.
+- Define eval criteria and launch gates *before* expanding scope.
+- Be honest about what's real (UI + model call) vs. simulated (data access).
 
 ## Eval approach
 
-The evaluation plan focuses on whether the assistant is useful, accurate, calibrated, and safe enough for a prototype pilot. See the full [eval plan](docs/eval-plan.md).
+The [eval plan](docs/eval-plan.md) checks whether the assistant is useful, accurate, calibrated, and safe enough for a small pilot. Key checks:
 
-Key checks include:
-
-- Correctness of calculations and assumptions
+- Calculation correctness on known inputs
 - Clear separation of facts, estimates, and recommendations
 - Appropriate caveats when context is missing
-- Consistent structure and chart usefulness
-- Escalation to human review for high-risk outputs
+- Valid, well-labeled chart JSON
+- **Honesty about simulated data** (does it imply fabricated numbers are real?)
+- Escalation to human review for high-risk requests
 
 ## Human review / guardrails
 
-Finance Bot should not be treated as autonomous decision-making software. The intended guardrail pattern is:
-
-- Human review before business or financial decisions
-- No unsupported investment, legal, tax, or accounting advice
-- Explicit caveats for incomplete context
-- No sensitive customer, company, or financial data in demo content
-- Failure-mode review before pilot expansion
+- Human review required before any business or financial decision.
+- No definitive investment, tax, legal, or accounting advice.
+- Explicit caveats when context is incomplete.
+- Synthetic, non-sensitive data only in demos.
+- Failure-mode review before any pilot expansion (see [failure modes](docs/failure-modes.md)).
 
 ## How to run
 
 ```bash
 npm install
+# add your key to .env  (see .env.example)
+echo "GEMINI_API_KEY=your_key_here" > .env
 npm run dev
 ```
 
-Optional production-style build check:
+Production-style build check:
 
 ```bash
 npm run build
 ```
 
+> Requires a Gemini API key. The app throws on startup if `GEMINI_API_KEY` is unset.
+
 ## Documentation
 
-- [Product brief](docs/product-brief.md)
-- [Eval plan](docs/eval-plan.md)
-- [Failure modes](docs/failure-modes.md)
-- [Launch gate](docs/launch-gate.md)
-- [Architecture](docs/architecture.md)
+- [Product brief](docs/product-brief.md) — problem, users, scope, metrics
+- [Eval plan](docs/eval-plan.md) — dimensions, rubric, test cases, threshold
+- [Failure modes](docs/failure-modes.md) — risks, mitigations, detection signals
+- [Launch gate](docs/launch-gate.md) — go/no-go checklist and blockers
+- [Architecture](docs/architecture.md) — real data/control flow and limits
 
 ## Roadmap
 
-- Add demo prompts and sample outputs
-- Add evaluation dataset with expected behaviors
-- Improve citation and source traceability
-- Add more explicit confidence and assumption labeling
-- Expand chart examples for common finance workflows
-- Document pilot feedback and iteration decisions
+- Replace simulated data access with a real, read-only connector (and label sources)
+- Ship the evaluation set with expected behaviors and a scoring harness
+- Add explicit confidence / assumption labeling in the UI
+- Add inline "show the math" for calculations
+- Capture pilot feedback and iteration decisions
 
 ## Status
 
-Prototype / learning project. Not deployed, not production-ready, and not intended for autonomous financial decisions.
+Prototype / learning project. Not deployed, not production-ready, data access is simulated, and it is **not** intended for autonomous financial decisions.
