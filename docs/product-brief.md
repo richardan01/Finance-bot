@@ -1,5 +1,11 @@
 # Product Brief — FinBot
 
+## Core insight
+
+Most AI assistants applied to finance optimise for sounding helpful. The real problem is **reviewability**: a finance answer is only useful if a human can check the assumptions, follow the math, and decide whether to trust it before it drives a decision. Confidence without traceability is worse than no answer, because it gets acted on. FinBot is a prototype of a different pattern — one where the answer is structured to be reviewed, not just read.
+
+**Why not just use ChatGPT?** You could upload a CSV to any frontier model and get a plausible answer. The gap this explores is what happens *around* the answer: does the assistant tell you what it assumed? Does it flag when context is missing? Does the product design keep a human between the output and the decision? Those are product and design problems, not model problems.
+
 ## Problem
 
 Finance and operations users regularly turn broad business questions ("why did expenses jump last month?") into analysis under time pressure. Generic AI chat can produce confident-sounding answers while hiding the assumptions, calculations, and uncertainty that finance work depends on. The risk is not "the bot is wrong" — it's "the bot is wrong in a way nobody can see before a decision is made."

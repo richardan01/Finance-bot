@@ -1,6 +1,7 @@
 # Finance Bot 💰 (FinBot)
 
 ![Status](https://img.shields.io/badge/status-prototype-blue)
+![CI](https://github.com/richardan01/Finance-bot/actions/workflows/ci.yml/badge.svg)
 ![Focus](https://img.shields.io/badge/focus-AI%20product%20management-purple)
 ![Human Review](https://img.shields.io/badge/human--in--the--loop-required-orange)
 ![Data](https://img.shields.io/badge/data-simulated-lightgrey)
@@ -15,19 +16,18 @@ An AI finance-analyst **prototype** that turns finance questions into structured
 
 FinBot is a single-page React app that calls Google's Gemini model to answer finance and operations questions, optionally analyze uploaded files (PDF/DOCX/XLSX/CSV), and render simple charts (bar/line/pie). It exists to demonstrate **AI product thinking** — problem framing, assistant design, evaluation, failure-mode analysis, and launch readiness — not to give financial advice.
 
-## Who it is for
+## Why it exists
 
-- Finance / ops users who want a faster first-pass analysis they can inspect
-- Product managers evaluating AI workflow and guardrail design
-- Portfolio reviewers looking for practical, honest AI PM work
+Most AI tools applied to finance optimise for sounding helpful. The real problem is **reviewability** — a finance answer is only useful if someone can check the assumptions, follow the math, and decide whether to trust it *before* it drives a decision. FinBot prototypes a different pattern: structured, inspectable answers with a human between the output and any decision. See [docs/product-brief.md](docs/product-brief.md) for the full problem framing and differentiation from generic LLM chat.
 
-## Problem
+## Demo
 
-Finance questions mix incomplete context, hidden assumptions, calculations, and decision pressure. A generic chatbot can sound confident while hiding gaps, unsupported numbers, or arithmetic errors — which is exactly where finance teams get hurt.
+> Demo GIF / screenshots not yet added — the app runs locally with a Gemini API key (`npm run dev`). Recording a walkthrough is on the roadmap.
 
-## Solution
-
-A safer assistant pattern: gather context, reason explicitly, return a **structured** answer that separates facts / assumptions / analysis / caveats, offer a chart when it clarifies, and keep a human reviewer between the answer and any decision.
+Suggested prompts to try once running:
+- *"Revenue was $80k Jan, $95k Feb, $88k Mar. Summarise the trend and flag any concern."*
+- *"Show a bar chart of those three months."*
+- *"Should I cut the marketing budget?" (deliberately under-specified — watch the caveat behaviour)*
 
 ## How it works (real flow)
 
@@ -90,19 +90,17 @@ npm run build
 
 ## Documentation
 
-- [Product brief](docs/product-brief.md) — problem, users, scope, metrics
+- [Product brief](docs/product-brief.md) — problem, insight, users, scope, metrics
 - [Eval plan](docs/eval-plan.md) — dimensions, rubric, test cases, threshold
+- [Eval results](docs/eval-results.md) — graded outputs (template, not yet run)
 - [Failure modes](docs/failure-modes.md) — risks, mitigations, detection signals
 - [Launch gate](docs/launch-gate.md) — go/no-go checklist and blockers
 - [Architecture](docs/architecture.md) — real data/control flow and limits
 
 ## Roadmap
 
-- Replace simulated data access with a real, read-only connector (and label sources)
-- Ship the evaluation set with expected behaviors and a scoring harness
-- Add explicit confidence / assumption labeling in the UI
-- Add inline "show the math" for calculations
-- Capture pilot feedback and iteration decisions
+- Replace simulated data access with a real, read-only connector (and label sources per response)
+- Run the evaluation set and publish graded results, including failures
 
 ## Status
 
