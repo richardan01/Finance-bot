@@ -1,16 +1,19 @@
 # Eval Results — FinBot
 
-**Status:** Not yet run. This file is the template for recording results once the eval set is executed against the live model. Fill in each row by running the test case in the app with your Gemini API key, grading against the rubric in [eval-plan.md](eval-plan.md), and noting what failed and why.
+**Status:** Not yet run in this checkout. This file is **auto-generated** by the eval harness — run it to replace this placeholder with live, graded results.
 
 ---
 
 ## How to run
 
-1. `npm run dev` with your `GEMINI_API_KEY` set.
-2. For each test case, paste the prompt exactly as written.
-3. Grade each dimension on the 1–5 rubric (see [eval-plan.md](eval-plan.md)).
-4. Record the pass/fail on the case's specific criterion.
-5. Paste a representative excerpt of the response in the notes column.
+```bash
+# requires GEMINI_API_KEY in your environment or .env
+npm run eval:docs
+```
+
+This calls `gemini-2.5-flash` with the same system prompt the app uses (`eval/run.ts`, cases in `eval/cases.ts`), applies deterministic checks, and overwrites this file with a results table + per-case response excerpts.
+
+Automated checks decide ✅/❌ only where that can be done with confidence. Subjective dimensions (simulated-data honesty, client-side chart fallback) are marked 🔍 **Review** for a human grade against the rubric in [eval-plan.md](eval-plan.md) — the harness does not fabricate scores for them.
 
 ---
 
