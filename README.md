@@ -86,6 +86,12 @@ Production-style build check:
 npm run build
 ```
 
+Run the evaluation suite against the live model (writes `docs/eval-results.md`):
+
+```bash
+npm run eval:docs
+```
+
 > Requires a Gemini API key. The app throws on startup if `GEMINI_API_KEY` is unset.
 
 ## Documentation
